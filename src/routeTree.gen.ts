@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StartingSoonRouteImport } from './routes/starting-soon'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as GameHudRouteImport } from './routes/game-hud'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StartingSoonRoute = StartingSoonRouteImport.update({
+  id: '/starting-soon',
+  path: '/starting-soon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OverlayRoute = OverlayRouteImport.update({
   id: '/overlay',
   path: '/overlay',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/game-hud' | '/overlay'
+  fullPaths: '/' | '/chat' | '/game-hud' | '/overlay' | '/starting-soon'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat' | '/game-hud' | '/overlay'
-  id: '__root__' | '/' | '/chat' | '/game-hud' | '/overlay'
+  to: '/' | '/chat' | '/game-hud' | '/overlay' | '/starting-soon'
+  id: '__root__' | '/' | '/chat' | '/game-hud' | '/overlay' | '/starting-soon'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   GameHudRoute: typeof GameHudRoute
   OverlayRoute: typeof OverlayRoute
+  StartingSoonRoute: typeof StartingSoonRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/starting-soon': {
+      id: '/starting-soon'
+      path: '/starting-soon'
+      fullPath: '/starting-soon'
+      preLoaderRoute: typeof StartingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/overlay': {
       id: '/overlay'
       path: '/overlay'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   GameHudRoute: GameHudRoute,
   OverlayRoute: OverlayRoute,
+  StartingSoonRoute: StartingSoonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
