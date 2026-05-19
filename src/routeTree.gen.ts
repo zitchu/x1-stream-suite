@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as GameHudRouteImport } from './routes/game-hud'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as IndexRouteImport } from './routes/index'
 
 const OverlayRoute = OverlayRouteImport.update({
@@ -23,6 +24,11 @@ const GameHudRoute = GameHudRouteImport.update({
   path: '/game-hud',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/game-hud' | '/overlay'
+  fullPaths: '/' | '/chat' | '/game-hud' | '/overlay'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/game-hud' | '/overlay'
-  id: '__root__' | '/' | '/game-hud' | '/overlay'
+  to: '/' | '/chat' | '/game-hud' | '/overlay'
+  id: '__root__' | '/' | '/chat' | '/game-hud' | '/overlay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   GameHudRoute: typeof GameHudRoute
   OverlayRoute: typeof OverlayRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GameHudRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   GameHudRoute: GameHudRoute,
   OverlayRoute: OverlayRoute,
 }
