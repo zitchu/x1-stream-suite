@@ -9,8 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StartingSoonRouteImport } from './routes/starting-soon'
+import { Route as OverlayRouteImport } from './routes/overlay'
+import { Route as GameHudRouteImport } from './routes/game-hud'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as BrbRouteImport } from './routes/brb'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StartingSoonRoute = StartingSoonRouteImport.update({
+  id: '/starting-soon',
+  path: '/starting-soon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OverlayRoute = OverlayRouteImport.update({
+  id: '/overlay',
+  path: '/overlay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameHudRoute = GameHudRouteImport.update({
+  id: '/game-hud',
+  path: '/game-hud',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrbRoute = BrbRouteImport.update({
+  id: '/brb',
+  path: '/brb',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +49,96 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/brb': typeof BrbRoute
+  '/chat': typeof ChatRoute
+  '/game-hud': typeof GameHudRoute
+  '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/brb': typeof BrbRoute
+  '/chat': typeof ChatRoute
+  '/game-hud': typeof GameHudRoute
+  '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/brb': typeof BrbRoute
+  '/chat': typeof ChatRoute
+  '/game-hud': typeof GameHudRoute
+  '/overlay': typeof OverlayRoute
+  '/starting-soon': typeof StartingSoonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/brb'
+    | '/chat'
+    | '/game-hud'
+    | '/overlay'
+    | '/starting-soon'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/brb' | '/chat' | '/game-hud' | '/overlay' | '/starting-soon'
+  id:
+    | '__root__'
+    | '/'
+    | '/brb'
+    | '/chat'
+    | '/game-hud'
+    | '/overlay'
+    | '/starting-soon'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrbRoute: typeof BrbRoute
+  ChatRoute: typeof ChatRoute
+  GameHudRoute: typeof GameHudRoute
+  OverlayRoute: typeof OverlayRoute
+  StartingSoonRoute: typeof StartingSoonRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/starting-soon': {
+      id: '/starting-soon'
+      path: '/starting-soon'
+      fullPath: '/starting-soon'
+      preLoaderRoute: typeof StartingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/overlay': {
+      id: '/overlay'
+      path: '/overlay'
+      fullPath: '/overlay'
+      preLoaderRoute: typeof OverlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-hud': {
+      id: '/game-hud'
+      path: '/game-hud'
+      fullPath: '/game-hud'
+      preLoaderRoute: typeof GameHudRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brb': {
+      id: '/brb'
+      path: '/brb'
+      fullPath: '/brb'
+      preLoaderRoute: typeof BrbRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +151,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrbRoute: BrbRoute,
+  ChatRoute: ChatRoute,
+  GameHudRoute: GameHudRoute,
+  OverlayRoute: OverlayRoute,
+  StartingSoonRoute: StartingSoonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
