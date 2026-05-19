@@ -1,5 +1,6 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "x1-stream-suite",
+  "description": "Suíte de overlays X1? para transmissões de Pokémon eSports com design premium e otimizado para OBS.",
   "private": true,
   "sideEffects": false,
   "type": "module",

@@ -25,14 +25,15 @@ function BrbScene() {
         >
           <BrandLogo className="self-start" />
           <span className="font-heading text-sm tracking-[0.35em] text-[color:var(--brand-blue)] mt-2">
-            INTERMISSION
+            INTERMISSÃO
           </span>
           <h1 className="font-display text-[110px] leading-[0.85] text-white">
-            BE<br />
+            BE
+            <br />
             <span style={{ color: "var(--brand-pink)" }}>RIGHT BACK</span>
           </h1>
           <p className="text-white/70 max-w-md">
-            Quick break — stretch, hydrate, refresh your team comp.
+            Pausa rápida — alongue, hidrate-se e volte com a equipe renovada.
           </p>
         </motion.div>
 
@@ -44,7 +45,7 @@ function BrbScene() {
           className="flex flex-col gap-3"
         >
           <Panel className="p-5">
-            <SectionTitle kicker="WHILE YOU WAIT" title="Follow X1?" tone="pink" />
+            <SectionTitle kicker="ENQUANTO ESPERA" title="Follow X1?" tone="pink" />
             <div className="grid grid-cols-2 gap-2 mt-3">
               <SocialLine icon="@" handle="@x1questionmark" platform="Twitter / X" />
               <SocialLine icon="◎" handle="@x1.gg" platform="Instagram" />
@@ -54,7 +55,7 @@ function BrbScene() {
           </Panel>
 
           <Panel className="p-5">
-            <SectionTitle kicker="UP NEXT" title="Today's Schedule" tone="blue" />
+            <SectionTitle kicker="PRÓXIMO" title="Agenda" tone="blue" />
             <div className="mt-3 space-y-2">
               <ScheduleRow time="18:00" event="Group A — WOLFE vs BARUFFI" live />
               <ScheduleRow time="19:30" event="Group B — CHENG vs MONTERO" />
@@ -63,11 +64,11 @@ function BrbScene() {
             </div>
           </Panel>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="font-heading text-[10px] tracking-[0.3em] text-white/40">
-              SPONSORS
+              PATROCÍNIOS
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {["POKÉ MART", "SILPH", "DEVON", "ROTOM"].map((s) => (
                 <span
                   key={s}
@@ -84,7 +85,15 @@ function BrbScene() {
   );
 }
 
-function SectionTitle({ kicker, title, tone }: { kicker: string; title: string; tone: "pink" | "blue" }) {
+function SectionTitle({
+  kicker,
+  title,
+  tone,
+}: {
+  kicker: string;
+  title: string;
+  tone: "pink" | "blue";
+}) {
   return (
     <div>
       <p
@@ -98,7 +107,15 @@ function SectionTitle({ kicker, title, tone }: { kicker: string; title: string; 
   );
 }
 
-function SocialLine({ icon, handle, platform }: { icon: string; handle: string; platform: string }) {
+function SocialLine({
+  icon,
+  handle,
+  platform,
+}: {
+  icon: string;
+  handle: string;
+  platform: string;
+}) {
   return (
     <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5">
       <span className="w-7 h-7 rounded-lg bg-[color:var(--brand-pink)] text-white grid place-items-center font-bold">
@@ -115,9 +132,7 @@ function SocialLine({ icon, handle, platform }: { icon: string; handle: string; 
 function ScheduleRow({ time, event, live }: { time: string; event: string; live?: boolean }) {
   return (
     <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/[0.04]">
-      <span className="font-display text-lg text-[color:var(--brand-blue)] w-14">
-        {time}
-      </span>
+      <span className="font-display text-lg text-[color:var(--brand-blue)] w-14">{time}</span>
       <span className="text-sm text-white/80 flex-1 truncate">{event}</span>
       {live && (
         <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[color:var(--brand-pink)] text-white">

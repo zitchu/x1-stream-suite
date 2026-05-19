@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Panel } from "@/components/overlay/Panel";
+import { BrandLogo } from "@/components/overlay/BrandLogo";
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
@@ -19,15 +21,29 @@ interface ChatMessage {
 
 const COLORS = ["#dd0da8", "#4fd5ff", "#F5C24A", "#5BD17A", "#A98FF3"];
 const MOCK_USERS = [
-  "AshK", "MistyGo", "Brock99", "ProfOak", "Roxanne",
-  "CynthiaG", "LeonChamp", "RedSilver", "GreenLeaf", "WallyR",
+  "AshK",
+  "MistyGo",
+  "Brock99",
+  "ProfOak",
+  "Roxanne",
+  "CynthiaG",
+  "LeonChamp",
+  "RedSilver",
+  "GreenLeaf",
+  "WallyR",
 ];
 const MOCK_LINES = [
-  "Let’s gooo X1?! 🔥", "That switch was insane",
-  "Miraidon sweep incoming", "GG WP",
-  "predictions: 3-1", "POG", "subbed!",
-  "what’s the timer", "Flutter Mane diff",
-  "Wolfe is cooking", "Tera Steel?? unreal",
+  "Vamos lá X1? 🔥",
+  "Esse switch foi insano",
+  "Miraidon sweep chegando",
+  "GG WP",
+  "predictions: 3-1",
+  "POG",
+  "subbed!",
+  "quem viu o timer?",
+  "Flutter Mane diff",
+  "Wolfe está dominando",
+  "Tera Steel?? surreal",
 ];
 
 function ChatScene() {
@@ -53,33 +69,42 @@ function ChatScene() {
   return (
     <div className="fixed inset-0 flex items-end p-6">
       <div className="w-[380px] max-h-[90vh] flex flex-col gap-2 overflow-hidden">
-        <AnimatePresence initial={false}>
-          {messages.map((m) => (
-            <motion.div
-              key={m.id}
-              layout
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="rounded-xl bg-[color:var(--surface)] backdrop-blur-md ring-brand edge-brand px-3 py-2"
-            >
-              <div className="flex items-center gap-1.5 mb-0.5">
-                {m.badges?.includes("mod") && <Badge tone="blue">MOD</Badge>}
-                {m.badges?.includes("sub") && <Badge tone="pink">SUB</Badge>}
-                <span
-                  className="font-display text-sm leading-none"
-                  style={{ color: m.color }}
-                >
-                  {m.user}
-                </span>
-              </div>
-              <p className="text-[13px] text-white leading-snug break-words">
-                {m.message}
+        <Panel className="p-4">
+          <div className="flex items-center gap-3">
+            <BrandLogo className="h-[48px] w-auto" />
+            <div>
+              <p className="font-heading text-[10px] uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+                X1? CHAT
               </p>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              <p className="text-sm text-white/60">Comentários em tela para transmissão.</p>
+            </div>
+          </div>
+        </Panel>
+
+        <div className="flex flex-col gap-2 overflow-hidden">
+          <AnimatePresence initial={false}>
+            {messages.map((m) => (
+              <motion.div
+                key={m.id}
+                layout
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="rounded-[1.6rem] bg-[color:var(--surface)] backdrop-blur-md ring-brand edge-brand px-3 py-3"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  {m.badges?.includes("mod") && <Badge tone="blue">MOD</Badge>}
+                  {m.badges?.includes("sub") && <Badge tone="pink">SUB</Badge>}
+                  <span className="font-display text-sm leading-none" style={{ color: m.color }}>
+                    {m.user}
+                  </span>
+                </div>
+                <p className="text-[13px] text-white leading-snug break-words">{m.message}</p>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

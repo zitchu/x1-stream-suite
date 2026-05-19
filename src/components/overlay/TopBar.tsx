@@ -26,58 +26,79 @@ export function TopBar({
   return (
     <div
       className={cn(
-        "w-full flex items-stretch gap-3 rounded-2xl bg-[color:var(--surface)] backdrop-blur-md ring-brand edge-brand overflow-hidden",
+        // Barra compacta — menos altura, mais próxima do topo
+        "w-full flex items-stretch gap-2 rounded-[1.8rem] border border-white/10 bg-[color:var(--surface)] backdrop-blur-lg ring-brand edge-brand overflow-visible",
         className,
       )}
     >
-      {/* Left player */}
-      <PlayerSlot p={left} align="left" />
+      <PlayerSlot p={left} align="left" accent="pink" />
 
-      {/* Center: logo + score + meta */}
-      <div className="flex items-center gap-4 px-5 py-2 bg-black/30">
-        <div className="flex items-center gap-3">
+      {/* Centro: placar + logo + info do round */}
+      <div className="flex items-center gap-3 px-3 py-1 bg-black/15 border-x border-white/10 overflow-visible">
+        <div className="flex items-center gap-3 overflow-visible">
           <ScoreBlock value={left.score} tone="pink" />
-          <BrandLogo className="min-w-[88px] min-h-[44px] px-3 py-1.5" />
+
+          {/* Logo: overflow PARA BAIXO via clip-path e margem negativa */}
+          <BrandLogo
+            className="min-w-[160px] h-[64px] px-4"
+            overflowBottom="2rem"
+            alt="X1?"
+          />
+
           <ScoreBlock value={right.score} tone="blue" />
         </div>
-        <div className="flex flex-col items-center leading-tight">
-          <span className="font-heading text-[10px] tracking-[0.2em] text-white/70">
+
+        {/* Round / Formato / Tempo */}
+        <div className="flex flex-col items-center leading-tight ml-1">
+          <span className="font-heading text-[9px] tracking-[0.2em] text-white/60 uppercase">
             {round}
           </span>
-          <span className="font-display text-lg text-white">{format}</span>
-          <span className="font-mono text-[11px] text-[color:var(--brand-blue)]">{timer}</span>
+          <span className="font-display text-base text-white">{format}</span>
+          <span className="font-mono text-[10px] text-[color:var(--brand-blue)]">
+            {timer}
+          </span>
         </div>
       </div>
 
-      {/* Right player */}
-      <PlayerSlot p={right} align="right" />
+      <PlayerSlot p={right} align="right" accent="blue" />
     </div>
   );
 }
 
-function PlayerSlot({ p, align }: { p: PlayerInfo; align: "left" | "right" }) {
+function PlayerSlot({
+  p,
+  align,
+  accent,
+}: {
+  p: PlayerInfo;
+  align: "left" | "right";
+  accent: "pink" | "blue";
+}) {
   return (
     <div
       className={cn(
-        "flex-1 flex items-center gap-3 px-5 py-3",
+        "flex-1 flex items-center gap-2.5 px-4 py-2",
         align === "right" && "flex-row-reverse text-right",
       )}
     >
+      {/* Barra colorida lateral */}
       <div
         className={cn(
-          "w-1.5 self-stretch rounded-full",
-          align === "left" ? "bg-[color:var(--brand-pink)]" : "bg-[color:var(--brand-blue)]",
+          "w-1 self-stretch rounded-full",
+          accent === "pink"
+            ? "bg-[color:var(--brand-pink)]"
+            : "bg-[color:var(--brand-blue)]",
         )}
       />
       <div className="flex flex-col leading-tight min-w-0">
         {p.tag && (
-          <span className="font-heading text-[10px] tracking-[0.2em] text-white/60 truncate">
+          <span className="font-heading text-[9px] tracking-[0.2em] text-white/55 truncate">
             {p.tag}
           </span>
         )}
-        <span className="font-display text-2xl text-white truncate">{p.name}</span>
+        <span className="font-display text-xl text-white truncate">{p.name}</span>
         {p.country && (
-          <span className="text-[11px] text-white/50">{p.country}</span>
+          <span className="text-[10px] text-white/45">{p.country}</span>
         )}
       </div>
     </div>
@@ -87,10 +108,14 @@ function PlayerSlot({ p, align }: { p: PlayerInfo; align: "left" | "right" }) {
 function ScoreBlock({ value, tone }: { value: number; tone: "pink" | "blue" }) {
   return (
     <div
-      className="min-w-[44px] h-11 rounded-xl flex items-center justify-center font-display text-3xl text-white"
+      className="min-w-[42px] h-10 rounded-xl flex items-center justify-center font-display text-2xl text-white"
       style={{
         background: tone === "pink" ? "var(--brand-pink)" : "var(--brand-blue)",
         color: tone === "pink" ? "white" : "var(--brand-ink)",
+        boxShadow:
+          tone === "pink"
+            ? "0 0 18px -6px rgba(221,13,168,0.55)"
+            : "0 0 18px -6px rgba(79,213,255,0.45)",
       }}
     >
       {value}
