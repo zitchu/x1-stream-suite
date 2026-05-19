@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OverlayRouteImport } from './routes/overlay'
+import { Route as GameHudRouteImport } from './routes/game-hud'
 import { Route as IndexRouteImport } from './routes/index'
 
 const OverlayRoute = OverlayRouteImport.update({
   id: '/overlay',
   path: '/overlay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameHudRoute = GameHudRouteImport.update({
+  id: '/game-hud',
+  path: '/game-hud',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/game-hud': typeof GameHudRoute
   '/overlay': typeof OverlayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/overlay'
+  fullPaths: '/' | '/game-hud' | '/overlay'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/overlay'
-  id: '__root__' | '/' | '/overlay'
+  to: '/' | '/game-hud' | '/overlay'
+  id: '__root__' | '/' | '/game-hud' | '/overlay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GameHudRoute: typeof GameHudRoute
   OverlayRoute: typeof OverlayRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/overlay'
       fullPath: '/overlay'
       preLoaderRoute: typeof OverlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-hud': {
+      id: '/game-hud'
+      path: '/game-hud'
+      fullPath: '/game-hud'
+      preLoaderRoute: typeof GameHudRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GameHudRoute: GameHudRoute,
   OverlayRoute: OverlayRoute,
 }
 export const routeTree = rootRouteImport
