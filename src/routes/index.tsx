@@ -16,6 +16,11 @@ export const Route = createFileRoute("/")({
 
 const ROUTES = [
   {
+    to: "/control",
+    label: "Painel de Controle",
+    desc: "Edição em tempo real do placar, round, jogadores e equipes Pokémon.",
+  },
+  {
     to: "/overlay",
     label: "Match Overlay",
     desc: "Barra superior com placar, jogadores, round e formato.",
@@ -39,7 +44,7 @@ function Index() {
   return (
     <div className="min-h-screen bg-[color:var(--brand-ink)] text-white p-8 flex flex-col gap-10">
       <header className="flex items-center justify-between gap-6">
-        <BrandLogo />
+        <BrandLogo variant="transparent" className="w-[110px] h-[110px]" />
         <div className="text-right">
           <p className="font-heading text-[11px] tracking-[0.25em] text-[color:var(--brand-blue)]">
             BROADCAST SUITE

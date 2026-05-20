@@ -13,6 +13,7 @@ import { Route as StartingSoonRouteImport } from './routes/starting-soon'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as GameHudRRouteImport } from './routes/game-hud-r'
 import { Route as GameHudLRouteImport } from './routes/game-hud-l'
+import { Route as ControlRouteImport } from './routes/control'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BrbRouteImport } from './routes/brb'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const GameHudLRoute = GameHudLRouteImport.update({
   path: '/game-hud-l',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ControlRoute = ControlRouteImport.update({
+  id: '/control',
+  path: '/control',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brb': typeof BrbRoute
   '/chat': typeof ChatRoute
+  '/control': typeof ControlRoute
   '/game-hud-l': typeof GameHudLRoute
   '/game-hud-r': typeof GameHudRRoute
   '/overlay': typeof OverlayRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brb': typeof BrbRoute
   '/chat': typeof ChatRoute
+  '/control': typeof ControlRoute
   '/game-hud-l': typeof GameHudLRoute
   '/game-hud-r': typeof GameHudRRoute
   '/overlay': typeof OverlayRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/brb': typeof BrbRoute
   '/chat': typeof ChatRoute
+  '/control': typeof ControlRoute
   '/game-hud-l': typeof GameHudLRoute
   '/game-hud-r': typeof GameHudRRoute
   '/overlay': typeof OverlayRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brb'
     | '/chat'
+    | '/control'
     | '/game-hud-l'
     | '/game-hud-r'
     | '/overlay'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brb'
     | '/chat'
+    | '/control'
     | '/game-hud-l'
     | '/game-hud-r'
     | '/overlay'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brb'
     | '/chat'
+    | '/control'
     | '/game-hud-l'
     | '/game-hud-r'
     | '/overlay'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrbRoute: typeof BrbRoute
   ChatRoute: typeof ChatRoute
+  ControlRoute: typeof ControlRoute
   GameHudLRoute: typeof GameHudLRoute
   GameHudRRoute: typeof GameHudRRoute
   OverlayRoute: typeof OverlayRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GameHudLRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/control': {
+      id: '/control'
+      path: '/control'
+      fullPath: '/control'
+      preLoaderRoute: typeof ControlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chat': {
       id: '/chat'
       path: '/chat'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrbRoute: BrbRoute,
   ChatRoute: ChatRoute,
+  ControlRoute: ControlRoute,
   GameHudLRoute: GameHudLRoute,
   GameHudRRoute: GameHudRRoute,
   OverlayRoute: OverlayRoute,

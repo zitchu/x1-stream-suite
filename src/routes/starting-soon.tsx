@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { BrandLogo } from "@/components/overlay/BrandLogo";
 import { Panel } from "@/components/overlay/Panel";
+import { useStreamState } from "@/hooks/useStreamState";
 
 export const Route = createFileRoute("/starting-soon")({
   head: () => ({
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/starting-soon")({
 });
 
 function StartingSoonScene() {
+  const { state } = useStreamState();
+
   return (
     <div className="fixed inset-0 flex flex-col">
       <div className="absolute inset-0 bg-[color:var(--brand-ink)]/55 backdrop-blur-sm" />
@@ -23,30 +26,30 @@ function StartingSoonScene() {
           className="flex flex-col gap-4"
         >
           <span className="font-heading text-sm tracking-[0.35em] text-[color:var(--brand-blue)]">
-            X1? APRESENTA
+            {state.startingSoonPreline}
           </span>
           <h1 className="font-display text-[110px] leading-[0.85] text-white">
             STARTING
             <br />
             <span style={{ color: "var(--brand-pink)" }}>SOON</span>
           </h1>
-          <p className="text-white/70 max-w-md mt-3">
-            Prepare-se — a transmissão começa em instantes. Aproveite para ajustar sua equipe.
-          </p>
+          <p className="text-white/70 max-w-md mt-3">{state.startingSoonDescription}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          animate={{ opacity: [1, 1.04, 1] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
           className="w-[420px] h-[420px] rounded-[2rem] bg-[color:var(--surface-elevated)] ring-brand edge-brand flex items-center justify-center mx-12"
         >
-          <div className="text-center">
-            <BrandLogo className="mx-auto mb-4" />
-            <p className="font-heading text-[10px] tracking-[0.3em] text-white/40">
-              WEBCAM / KEY ART
-            </p>
-          </div>
+          <motion.div
+            initial={{ scale: 1 }}
+            animate={{ scale: [1, 1.03, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            className="text-center"
+          >
+            <BrandLogo variant="transparent" className="mx-auto mb-4 w-[125px] h-[125px]" />
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -55,10 +58,10 @@ function StartingSoonScene() {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="flex flex-col gap-3 text-right"
         >
-          <InfoLine kicker="EVENTO" value="Pokémon VGC Invitational" />
-          <InfoLine kicker="FORMATO" value="BO5 — Regulation H" tone="blue" />
-          <InfoLine kicker="CASTERS" value="Wolfey · Cybertron" />
-          <InfoLine kicker="STREAM" value="twitch.tv/x1" tone="blue" />
+          <InfoLine kicker="EVENTO" value={state.startingSoonEvent} />
+          <InfoLine kicker="FORMATO" value={state.startingSoonFormat} tone="blue" />
+          <InfoLine kicker="CASTERS" value={state.startingSoonCasters} />
+          <InfoLine kicker="STREAM" value={state.startingSoonStream} tone="blue" />
         </motion.div>
       </div>
 
@@ -67,7 +70,7 @@ function StartingSoonScene() {
           <div className="flex items-center gap-3">
             <span className="block h-3 w-3 rounded-full bg-[color:var(--brand-pink)] animate-pulse" />
             <span className="font-heading text-[11px] tracking-[0.3em] text-white/70">
-              NO AR EM INSTANTES
+              {state.startingSoonStatus}
             </span>
           </div>
           <div className="accent-bar h-1 w-full max-w-[240px] rounded-full opacity-70" />

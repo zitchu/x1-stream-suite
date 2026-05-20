@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/overlay/TopBar";
 import { TeamPanel } from "@/components/overlay/TeamPanel";
-import { MOCK_TEAM_LEFT } from "@/components/overlay/mockData";
+import { usePokemonTeam } from "@/hooks/usePokemonTeam";
+import { useStreamState } from "@/hooks/useStreamState";
 
 export const Route = createFileRoute("/game-hud-l")({
   head: () => ({
@@ -11,24 +12,35 @@ export const Route = createFileRoute("/game-hud-l")({
 });
 
 function GameHudLeftScene() {
+  const { state } = useStreamState();
+
+  /**
+   * usePokemonTeam enriquece o time base de forma assíncrona:
+   *  - sprites da PokéAPI
+   *  - moves / items / abilities do Smogon Stats (se não fornecidos)
+   * O time base (state.teamLeft) aparece imediatamente; os dados chegam em background.
+   */
+  const team = usePokemonTeam(state.teamLeft);
+
+  const playerTag = [state.left.tag, state.left.country].filter(Boolean).join(" • ");
+
   return (
     /*
      * OBS Browser Source: 1920×1080, fundo transparente.
-     * Layout: Mantém a barra superior inteira no topo,
-     * mas exibe apenas o painel de times esquerdo (P1) abaixo.
-     * O container do painel usa w-[950px] (aproximadamente metade da tela)
-     * para manter o design de 2 colunas de cards sem espremer o texto.
-     * A área da direita fica livre e transparente para capturar o jogo.
+     * Layout: TopBar inteira no topo + painel do J1 (esquerda).
+     * A área direita fica transparente para capturar o jogo.
      */
-    <div className="flex h-screen flex-col text-white overflow-hidden">
+    <div className="relative flex h-screen flex-col text-white overflow-hidden">
       {/* ── TopBar compacta no topo ── */}
       <div className="flex-none pt-2 px-3">
         <TopBar
-          left={{ name: "WOLFE", tag: "LIQUID", country: "USA", score: 2 }}
-          right={{ name: "BARUFFI", tag: "TSM", country: "ITA", score: 1 }}
-          round="Grand Finals"
-          format="BO5"
-          timer="08:43"
+          left={state.left}
+          right={state.right}
+          round={state.round}
+          format={state.format}
+          timer={state.timer}
+          hideTimer
+          isHud
         />
       </div>
 
@@ -37,9 +49,9 @@ function GameHudLeftScene() {
         <div className="w-[768px] h-full">
           <TeamPanel
             side="left"
-            team={MOCK_TEAM_LEFT}
-            playerName="WOLFE"
-            playerTag="LIQUID • USA"
+            team={team}
+            playerName={state.left.name}
+            playerTag={playerTag || undefined}
           />
         </div>
       </div>

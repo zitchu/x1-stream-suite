@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { BrandLogo } from "@/components/overlay/BrandLogo";
 import { Panel } from "@/components/overlay/Panel";
+import { useStreamState } from "@/hooks/useStreamState";
 
 export const Route = createFileRoute("/brb")({
   head: () => ({
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/brb")({
 });
 
 function BrbScene() {
+  const { state } = useStreamState();
+
   return (
     <div className="fixed inset-0 flex flex-col">
       <div className="absolute inset-0 bg-[color:var(--brand-ink)]/55 backdrop-blur-sm" />
@@ -23,18 +26,18 @@ function BrbScene() {
           transition={{ duration: 0.6 }}
           className="flex flex-col gap-4"
         >
-          <BrandLogo className="self-start" />
+          <BrandLogo variant="transparent" className="self-start w-[125px] h-[125px]" />
           <span className="font-heading text-sm tracking-[0.35em] text-[color:var(--brand-blue)] mt-2">
-            INTERMISSÃO
+            {state.brbHeadline}
           </span>
           <h1 className="font-display text-[110px] leading-[0.85] text-white">
-            BE
+            {state.brbTitle.split(" ")[0]}
             <br />
-            <span style={{ color: "var(--brand-pink)" }}>RIGHT BACK</span>
+            <span style={{ color: "var(--brand-pink)" }}>
+              {state.brbTitle.split(" ").slice(1).join(" ")}
+            </span>
           </h1>
-          <p className="text-white/70 max-w-md">
-            Pausa rápida — alongue, hidrate-se e volte com a equipe renovada.
-          </p>
+          <p className="text-white/70 max-w-md">{state.brbDescription}</p>
         </motion.div>
 
         {/* Side cards */}
@@ -66,10 +69,10 @@ function BrbScene() {
 
           <div className="flex items-center gap-3 flex-wrap">
             <span className="font-heading text-[10px] tracking-[0.3em] text-white/40">
-              PATROCÍNIOS
+              {state.brbSponsorsTitle}
             </span>
             <div className="flex flex-wrap items-center gap-2">
-              {["POKÉ MART", "SILPH", "DEVON", "ROTOM"].map((s) => (
+              {state.brbSponsorItems.map((s) => (
                 <span
                   key={s}
                   className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 font-heading text-[10px] tracking-[0.25em] text-white/70"

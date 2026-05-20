@@ -14,6 +14,8 @@ export function TopBar({
   round = "Round 1",
   format = "BO3",
   timer = "00:00",
+  isHud = false,
+  hideTimer = false,
   className,
 }: {
   left: PlayerInfo;
@@ -21,6 +23,8 @@ export function TopBar({
   round?: string;
   format?: "BO3" | "BO5";
   timer?: string;
+  isHud?: boolean;
+  hideTimer?: boolean;
   className?: string;
 }) {
   return (
@@ -38,10 +42,14 @@ export function TopBar({
         <div className="flex items-center gap-3 overflow-visible">
           <ScoreBlock value={left.score} tone="pink" />
 
-          {/* Logo: overflow PARA BAIXO via clip-path e margem negativa */}
+          {/* Logo cápsula vertical: extravasa apenas no game-hud l e r */}
           <BrandLogo
-            className="min-w-[160px] h-[64px] px-4"
-            overflowBottom="2rem"
+            className={cn(
+              "self-center flex-shrink-0 z-50 transition-all duration-300",
+              isHud
+                ? "w-[76px] h-[84px] -my-[11px] px-1.5 shadow-xl brand-glow"
+                : "w-[54px] h-[60px] px-1",
+            )}
             alt="X1?"
           />
 
@@ -54,9 +62,9 @@ export function TopBar({
             {round}
           </span>
           <span className="font-display text-base text-white">{format}</span>
-          <span className="font-mono text-[10px] text-[color:var(--brand-blue)]">
-            {timer}
-          </span>
+          {!hideTimer ? (
+            <span className="font-mono text-[10px] text-[color:var(--brand-blue)]">{timer}</span>
+          ) : null}
         </div>
       </div>
 
@@ -85,9 +93,7 @@ function PlayerSlot({
       <div
         className={cn(
           "w-1 self-stretch rounded-full",
-          accent === "pink"
-            ? "bg-[color:var(--brand-pink)]"
-            : "bg-[color:var(--brand-blue)]",
+          accent === "pink" ? "bg-[color:var(--brand-pink)]" : "bg-[color:var(--brand-blue)]",
         )}
       />
       <div className="flex flex-col leading-tight min-w-0">
@@ -97,9 +103,7 @@ function PlayerSlot({
           </span>
         )}
         <span className="font-display text-xl text-white truncate">{p.name}</span>
-        {p.country && (
-          <span className="text-[10px] text-white/45">{p.country}</span>
-        )}
+        {p.country && <span className="text-[10px] text-white/45">{p.country}</span>}
       </div>
     </div>
   );

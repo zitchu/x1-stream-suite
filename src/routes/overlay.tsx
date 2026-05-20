@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/overlay/TopBar";
 import { Panel } from "@/components/overlay/Panel";
+import { ActivePokemonSidebar } from "@/components/overlay/ActivePokemonSidebar";
+
+import { useStreamState } from "@/hooks/useStreamState";
 
 export const Route = createFileRoute("/overlay")({
   head: () => ({
@@ -10,50 +13,57 @@ export const Route = createFileRoute("/overlay")({
 });
 
 function OverlayScene() {
+  const { state } = useStreamState();
+
   return (
     <div className="fixed inset-0 pointer-events-none">
+      <ActivePokemonSidebar team={state.teamLeft} side="left" />
+      <ActivePokemonSidebar team={state.teamRight} side="right" />
       <div className="absolute inset-0 p-4 flex flex-col gap-4">
         {/* Barra superior compacta */}
         <TopBar
-          left={{ name: "WOLFE", tag: "USA", country: "Estados Unidos", score: 2 }}
-          right={{ name: "BARUFFI", tag: "ITA", country: "Itália", score: 1 }}
-          round="Top 8 — Worlds 2025"
-          format="BO3"
-          timer="42:17"
+          left={state.left}
+          right={state.right}
+          round={state.round}
+          format={state.format}
+          timer={state.timer}
+          hideTimer
+          isHud
         />
 
         {/* Rodapé: casters + patrocinadores */}
-        <div className="mt-auto flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <Panel className="w-full lg:w-[400px] p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-1 self-stretch rounded-full bg-[color:var(--brand-pink)]" />
-              <div>
-                <p className="font-heading text-[9px] tracking-[0.25em] text-[color:var(--brand-blue)]">
-                  NA TRANSMISSÃO
-                </p>
-                <p className="font-display text-lg text-white leading-none mt-1">
-                  Aaron Zheng{" "}
-                  <span className="text-white/40 text-sm">&amp;</span> Gabby Snyder
-                </p>
-                <p className="text-[11px] text-white/50 mt-0.5">
-                  Inglês — twitch.tv/x1
-                </p>
+        <div className="mt-auto flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-center lg:gap-6">
+          {state.showBroadcastPanel && (
+            <Panel className="w-full max-w-[420px] p-4 mx-auto lg:mx-0">
+              <div className="flex items-center gap-3">
+                <div className="w-1 self-stretch rounded-full bg-[color:var(--brand-pink)]" />
+                <div>
+                  <p className="font-heading text-[9px] tracking-[0.25em] text-[color:var(--brand-blue)]">
+                    {state.broadcastTitle}
+                  </p>
+                  <p className="font-display text-lg text-white leading-none mt-1">
+                    {state.broadcastNames}
+                  </p>
+                  <p className="text-[11px] text-white/50 mt-0.5">{state.broadcastDescription}</p>
+                </div>
               </div>
-            </div>
-          </Panel>
+            </Panel>
+          )}
 
-          <Panel className="w-full lg:w-auto px-4 py-2.5">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-heading text-[9px] tracking-[0.25em] text-white/50">
-                PATROCINADORES
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                <SponsorChip name="POKÉ MART" />
-                <SponsorChip name="ROTOM HQ" />
-                <SponsorChip name="SILPH CO" />
+          {state.showSponsorPanel && (
+            <Panel className="w-full max-w-[420px] px-4 py-2.5 mx-auto lg:mx-0">
+              <div className="flex flex-wrap items-center gap-3 justify-center">
+                <span className="font-heading text-[9px] tracking-[0.25em] text-white/50">
+                  {state.sponsorTitle}
+                </span>
+                <div className="flex flex-wrap items-center gap-2 justify-center">
+                  {state.sponsorItems.map((name) => (
+                    <SponsorChip key={name} name={name} />
+                  ))}
+                </div>
               </div>
-            </div>
-          </Panel>
+            </Panel>
+          )}
         </div>
       </div>
     </div>
