@@ -4,10 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* X1? Brand fonts — Grindy Brush + Beyond the Mountains are custom display
-   fonts. We load the matching Google Fonts stylesheet in the page head while
-   leaving room to replace them with local files later if desired. */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -25,6 +21,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -40,51 +38,98 @@
   /* Brand */
   --color-brand-pink: var(--brand-pink);
   --color-brand-blue: var(--brand-blue);
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-light: var(--brand-purple-light);
+  --color-brand-magenta: var(--brand-magenta);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-lime: var(--brand-lime);
   --color-brand-ink: var(--brand-ink);
   --color-brand-graphite: var(--brand-graphite);
+  --color-brand-text: var(--brand-text);
+  --color-brand-border: var(--brand-border);
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
 
-  --font-display: "Grindy Brush", "Bowlby One", system-ui, sans-serif;
-  --font-heading: "Beyond the Mountains", "Bungee", system-ui, sans-serif;
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-display: "Archivo Black", Inter, system-ui, sans-serif;
+  --font-heading: "Archivo Black", Inter, system-ui, sans-serif;
+  --font-dado: Kloemax, "Martian Mono", monospace;
+  --font-label: "Martian Mono", monospace;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 :root {
   --radius: 0.875rem;
 
-  /* Transparent base — designed to sit over OBS Browser Source */
-  --background: oklch(0 0 0 / 0);
-  --foreground: oklch(0.98 0 0);
+  /* The document body stays transparent for OBS; UI surfaces use Arena black. */
+  --background: #0b0710;
+  --foreground: #c9c4d6;
 
-  /* Surfaces are solid (dark ink) for legibility on stream */
-  --surface: oklch(0.16 0.01 280 / 0.92);
-  --surface-elevated: oklch(0.21 0.012 280 / 0.95);
+  --surface: #0b0710;
+  --surface-elevated: #2a1f3d;
 
-  --card: oklch(0.16 0.01 280 / 0.92);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.16 0.01 280 / 0.95);
-  --popover-foreground: oklch(0.98 0 0);
+  --card: #0b0710;
+  --card-foreground: #c9c4d6;
+  --popover: #0b0710;
+  --popover-foreground: #c9c4d6;
 
   /* Brand */
-  --brand-pink: oklch(0.62 0.27 350); /* #dd0da8 */
-  --brand-blue: oklch(0.83 0.13 230); /* #4fd5ff */
-  --brand-ink: oklch(0.14 0.008 280);
-  --brand-graphite: oklch(0.42 0.01 280);
+  --brand-purple: #6a1fd0;
+  --brand-purple-light: #8b3dff;
+  --brand-magenta: #dd0da8;
+  --brand-cyan: #4fd5ff;
+  --brand-lime: #d4ff35;
+  --brand-text: #c9c4d6;
+  --brand-border: #2a1f3d;
+  --brand-pink: var(--brand-magenta);
+  --brand-blue: var(--brand-cyan);
+  --brand-ink: #0b0710;
+  --brand-graphite: #2a1f3d;
 
-  --primary: var(--brand-pink);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: var(--brand-blue);
-  --secondary-foreground: oklch(0.14 0.008 280);
-  --muted: oklch(0.26 0.01 280 / 0.6);
-  --muted-foreground: oklch(0.78 0.005 280);
-  --accent: var(--brand-blue);
-  --accent-foreground: oklch(0.14 0.008 280);
-  --destructive: oklch(0.62 0.24 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 0.1);
-  --input: oklch(1 0 0 / 0.15);
-  --ring: var(--brand-pink);
+  --primary: var(--brand-purple);
+  --primary-foreground: #ffffff;
+  --success: var(--brand-lime);
+  --success-foreground: var(--brand-ink);
+  --secondary: var(--brand-cyan);
+  --secondary-foreground: var(--brand-ink);
+  --muted: var(--brand-border);
+  --muted-foreground: var(--brand-text);
+  --accent: var(--brand-purple-light);
+  --accent-foreground: #ffffff;
+  --destructive: var(--brand-magenta);
+  --destructive-foreground: #ffffff;
+  --border: var(--brand-border);
+  --input: var(--brand-border);
+  --ring: var(--brand-purple-light);
+
+  --chart-1: var(--brand-purple);
+  --chart-2: var(--brand-cyan);
+  --chart-3: var(--brand-magenta);
+  --chart-4: var(--brand-lime);
+  --chart-5: var(--brand-purple-light);
+
+  --sidebar: var(--brand-ink);
+  --sidebar-foreground: var(--brand-text);
+  --sidebar-primary: var(--brand-purple);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--brand-purple-light);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: var(--brand-border);
+  --sidebar-ring: var(--brand-purple-light);
 }
 
 .dark {
@@ -102,6 +147,7 @@
     background: transparent !important;
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -109,15 +155,26 @@
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
+    letter-spacing: -0.025em;
+    line-height: 0.9;
   }
   .font-heading {
     font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+  .font-dado {
+    font-family: var(--font-dado);
+    font-variant-numeric: tabular-nums;
     letter-spacing: 0.04em;
+  }
+  .font-label {
+    font-family: var(--font-label);
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
-  /* Subtle dual-tone edge using brand pink + blue */
+  /* Subtle dual-tone edge using brand magenta + cyan */
   .ring-brand {
     box-shadow:
       0 0 0 1px oklch(1 0 0 / 0.06),
@@ -135,10 +192,10 @@
     padding: 1px;
     background: linear-gradient(
       135deg,
-      var(--brand-pink) 0%,
+      var(--brand-magenta) 0%,
       transparent 35%,
       transparent 65%,
-      var(--brand-blue) 100%
+      var(--brand-cyan) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -150,24 +207,24 @@
   .accent-bar {
     background: linear-gradient(
       90deg,
-      var(--brand-pink),
-      var(--brand-pink) 50%,
-      var(--brand-blue) 50%,
-      var(--brand-blue)
+      var(--brand-magenta),
+      var(--brand-magenta) 50%,
+      var(--brand-cyan) 50%,
+      var(--brand-cyan)
     );
   }
   .brand-glow {
     box-shadow:
-      0 0 24px -24px rgba(221, 13, 168, 0.85),
-      0 0 32px -28px rgba(79, 213, 255, 0.75);
+      0 0 24px -24px color-mix(in srgb, var(--brand-magenta) 85%, transparent),
+      0 0 32px -28px color-mix(in srgb, var(--brand-cyan) 75%, transparent);
   }
   .brand-accent-border {
     box-shadow:
       inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-      inset 0 0 0 2px rgba(79, 213, 255, 0.09);
+      inset 0 0 0 2px color-mix(in srgb, var(--brand-cyan) 9%, transparent);
   }
 
-  /* ── Borda premium da logo: degradê horizontal rosa → branco → azul ── */
+  /* Premium logo border: horizontal magenta-to-white-to-cyan gradient. */
   .logo-border-premium {
     position: relative;
   }
@@ -179,9 +236,9 @@
     padding: 2px;
     background: linear-gradient(
       90deg,
-      var(--brand-pink) 0%,
+      var(--brand-magenta) 0%,
       #ffffff 50%,
-      var(--brand-blue) 100%
+      var(--brand-cyan) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,

@@ -40,15 +40,15 @@ function StartingSoonScene() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: [1, 1.04, 1] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
-          className="w-[420px] h-[420px] rounded-[2rem] bg-[color:var(--surface-elevated)] ring-brand edge-brand flex items-center justify-center mx-12"
+          className="w-[420px] h-[420px] overflow-hidden rounded-[2rem] bg-[color:var(--surface-elevated)] ring-brand edge-brand flex items-center justify-center mx-12"
         >
           <motion.div
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.03, 1] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="text-center"
+            className="h-full w-full"
           >
-            <BrandLogo variant="transparent" className="mx-auto mb-4 w-[125px] h-[125px]" />
+            <BrandLogo variant="transparent" className="h-full w-full" />
           </motion.div>
         </motion.div>
 
